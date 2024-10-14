@@ -16,29 +16,56 @@ const oauthClient = new OAuthClient({
 });
 
 
+
+
+
 app.get('/auth', (req, res) => {
-  
+   
     const authUri = oauthClient.authorizeUri({
         scope: [OAuthClient.scopes.Accounting, OAuthClient.scopes.OpenId],
-        state: 'Init' 
+        state: 'testState' 
     });
- 
+    
     res.redirect(authUri);
 });
 
 
+
+
+
+
+
+
 app.get('/callback', async (req, res) => {
     const parseRedirect = req.url;
+    const { code, realmId } = req.query;
 
     try {
   
         const authResponse = await oauthClient.createToken(parseRedirect);
+       
+
+
+       
+
+ 
+        console.log(authResponse)
+
+       
+
+       
+
+
      
-        res.redirect('/payments');
+        res.redirect('/invoices');
     } catch (e) {
         console.error('Error', e);
     }
 });
+
+
+
+
 
 
 
@@ -65,3 +92,7 @@ app.listen(port, () => {
 });
 
 
+
+
+
+// refresh_token: 'AB11737574466ScvpewXaqlJcoNkb9amwdPT4kmzL9pUuNryEi',
